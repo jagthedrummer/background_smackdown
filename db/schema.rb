@@ -11,12 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131205220758) do
+ActiveRecord::Schema.define(version: 20131205224031) do
 
   create_table "batches", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "background_type"
+    t.integer  "job_count"
+    t.string   "job_type"
+    t.integer  "worker_count"
+    t.integer  "thread_count"
   end
 
   create_table "jobs", force: true do |t|

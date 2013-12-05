@@ -15,6 +15,32 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
+
+  <div class="field">
+    <%= f.label :background_type %><br>
+    <%= f.select(:background_type, Batch::BACKGROUND_TYPES.map { |value| [ value, value ] }) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :job_type %><br>
+    <%= f.select(:job_type, Batch::JOB_TYPES.map { |value| [ value, value ] }) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :job_count %><br>
+    <%= f.number_field :job_count %>
+  </div>
+
+  <div class="field">
+    <%= f.label :worker_count %><br>
+    <%= f.number_field :worker_count %>
+  </div>
+
+  <div class="field">
+    <%= f.label :thread_count %><br>
+    <%= f.number_field :thread_count %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

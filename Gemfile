@@ -29,6 +29,9 @@ gem 'jbuilder', '~> 1.2'
 
 gem "bootstrap-sass", "~> 3.0.3.0"
 
+gem "resque", "~> 1.25.1"
+gem "sidekiq", "~> 2.17.0"
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

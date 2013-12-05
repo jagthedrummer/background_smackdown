@@ -1,5 +1,7 @@
 class Job < ActiveRecord::Base
 
+  belongs_to :batch
+
   def process
     self.started_at = Time.now
     process_impl
