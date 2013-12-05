@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Batch:</strong>
+  <%= @job.batch_id %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @job.type %>
+</p>
+
+<p>
+  <strong>Started at:</strong>
+  <%= @job.started_at %>
+</p>
+
+<p>
+  <strong>Ended at:</strong>
+  <%= @job.ended_at %>
+</p>
+
+<%= link_to 'Edit', edit_job_path(@job) %> |
+<%= link_to 'Back', jobs_path %>
