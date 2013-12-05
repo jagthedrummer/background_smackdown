@@ -16,6 +16,7 @@ class Batch < ActiveRecord::Base
       if self.background_type == "Resque"
         Resque.enqueue(ResqueWorker, job.id)
       else
+        SidekiqWorker.perform_async(job.id)
       end
     end
   end
