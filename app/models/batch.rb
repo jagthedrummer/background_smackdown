@@ -12,7 +12,12 @@ class Batch < ActiveRecord::Base
   end
 
   def queue_jobs
-
+    self.jobs.find_each do |job|
+      if self.background_type == "Resque"
+        Resque.enqueue(ResqueWorker, job.id)
+      else
+      end
+    end
   end
 
 end
