@@ -1,4 +1,6 @@
 BackgroundSmackdown::Application.routes.draw do
+  resources :system_stats
+
   resources :jobs
 
   resources :batches

@@ -1,0 +1,35 @@
+<h1>Listing system_stats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User cpu</th>
+      <th>Sys cpu</th>
+      <th>Load 1</th>
+      <th>Load 5</th>
+      <th>Load 15</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @system_stats.each do |system_stat| %>
+      <tr>
+        <td><%= system_stat.user_cpu %></td>
+        <td><%= system_stat.sys_cpu %></td>
+        <td><%= system_stat.load_1 %></td>
+        <td><%= system_stat.load_5 %></td>
+        <td><%= system_stat.load_15 %></td>
+        <td><%= link_to 'Show', system_stat %></td>
+        <td><%= link_to 'Edit', edit_system_stat_path(system_stat) %></td>
+        <td><%= link_to 'Destroy', system_stat, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New System stat', new_system_stat_path %>

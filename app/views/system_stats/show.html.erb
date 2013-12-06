@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User cpu:</strong>
+  <%= @system_stat.user_cpu %>
+</p>
+
+<p>
+  <strong>Sys cpu:</strong>
+  <%= @system_stat.sys_cpu %>
+</p>
+
+<p>
+  <strong>Load 1:</strong>
+  <%= @system_stat.load_1 %>
+</p>
+
+<p>
+  <strong>Load 5:</strong>
+  <%= @system_stat.load_5 %>
+</p>
+
+<p>
+  <strong>Load 15:</strong>
+  <%= @system_stat.load_15 %>
+</p>
+
+<%= link_to 'Edit', edit_system_stat_path(@system_stat) %> |
+<%= link_to 'Back', system_stats_path %>

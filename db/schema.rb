@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131206214707) do
+ActiveRecord::Schema.define(version: 20131206221430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,16 @@ ActiveRecord::Schema.define(version: 20131206214707) do
     t.float    "start_sys_cpu"
     t.float    "end_user_cpu"
     t.float    "end_sys_cpu"
+  end
+
+  create_table "system_stats", force: true do |t|
+    t.float    "user_cpu"
+    t.float    "sys_cpu"
+    t.float    "load_1"
+    t.float    "load_5"
+    t.float    "load_15"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
