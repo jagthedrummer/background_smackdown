@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131205224031) do
+ActiveRecord::Schema.define(version: 20131206205812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,17 @@ ActiveRecord::Schema.define(version: 20131205224031) do
     t.string   "job_type"
     t.integer  "worker_count"
     t.integer  "thread_count"
+    t.float    "mean"
+    t.float    "median"
+    t.float    "range"
+    t.float    "min"
+    t.float    "max"
+    t.float    "variance"
+    t.float    "standard_deviation"
+    t.float    "relative_standard_deviation"
+    t.float    "percentile95"
+    t.float    "run_time"
+    t.float    "wall_time"
   end
 
   create_table "jobs", force: true do |t|

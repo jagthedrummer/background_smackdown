@@ -13,4 +13,7 @@ class Job < ActiveRecord::Base
     # do nothing.  Subclasses will do stuff.
   end
 
+  def runtime
+    ended_at - started_at
+  end
 end
