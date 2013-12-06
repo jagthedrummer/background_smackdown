@@ -5,5 +5,9 @@
   <%= @batch.name %>
 </p>
 
+<script type="text/javascript" charset="utf-8">
+  var job_data = <%= @batch.jobs.to_json.html_safe %>;
+</script>
+
 <%= link_to 'Edit', edit_batch_path(@batch) %> |
 <%= link_to 'Back', batches_path %>

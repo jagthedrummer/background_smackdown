@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131206205812) do
+ActiveRecord::Schema.define(version: 20131206214707) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 20131206205812) do
     t.datetime "ended_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "start_load_1"
+    t.float    "start_load_5"
+    t.float    "start_load_15"
+    t.float    "end_load_1"
+    t.float    "end_load_5"
+    t.float    "end_load_15"
+    t.float    "start_user_cpu"
+    t.float    "start_sys_cpu"
+    t.float    "end_user_cpu"
+    t.float    "end_sys_cpu"
   end
 
 end

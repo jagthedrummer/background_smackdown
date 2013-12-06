@@ -53,7 +53,6 @@ describe Batch do
     it "should capture all the things" do
       @batch.record_stats
       [:mean,:median,:range,:min,:max,:variance,:standard_deviation,:relative_standard_deviation,:run_time, :wall_time].each do |stat|
-        puts stat
         @batch.send(stat).should_not be_nil
       end
     end
