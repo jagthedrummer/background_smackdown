@@ -13,11 +13,22 @@
       <th></th>
       <th></th>
     </tr>
+    <tr>
+      <th>Wall time</th>
+      <th>Run time</th>
+      <th>Mean</th>
+      <th>Median</th>
+      <th>Range</th>
+      <th>Std Dev</th>
+      <th>25th%</th>
+      <th>75th%</th>
+    </tr>
   </thead>
 
   <tbody>
     <% @batches.each do |batch| %>
-      <tr>
+      <%= classname = cycle('odd','even') %>
+      <tr class="<%= classname %>">
         <td><%= batch.name %></td>
         <td><%= batch.background_type %></td>
         <td><%= batch.job_type %></td>
@@ -28,16 +39,22 @@
         <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
         <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
-      <tr>
-        <td><%= batch.mean %></td>
-        <td><%= batch.median %></td>
-        <td><%= batch.range %></td>
+      <tr class="<%= classname %>">
+        <td><%= number_to_human batch.wall_time %></td>
+        <td><%= number_to_human batch.run_time %></td>
+        <td><%= number_to_human batch.mean %></td>
+        <td><%= number_to_human batch.median %></td>
+        <td><%= number_to_human batch.range %></td>
+        <td><%= number_to_human batch.standard_deviation %></td>
+        <td><%= number_to_human batch.percentile25 %></td>
+        <td><%= number_to_human batch.percentile75 %></td>
+        <!--
         <td><%= batch.min %></td>
         <td><%= batch.max %></td>
         <td><%= batch.variance %></td>
-        <td><%= batch.standard_deviation %></td>
         <td><%= batch.relative_standard_deviation %></td>
         <td><%= batch.percentile95 %></td>
+        -->
       </tr>
     <% end %>
   </tbody>

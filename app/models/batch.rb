@@ -1,6 +1,7 @@
 class Batch < ActiveRecord::Base
 
   has_many :jobs
+  has_many :system_stats
 
   BACKGROUND_TYPES = ["Resque","Sidekiq"]
   JOB_TYPES = ["Job","CpuJob","IoJob"]
@@ -9,6 +10,21 @@ class Batch < ActiveRecord::Base
     self.job_count.times do
       self.jobs.create! :type => self.job_type
     end
+  end
+
+
+  def process_batch
+    SystemStat.capture_current_stats(self)
+    self.queue_jobs
+    while( !self.finished? )
+      self.reload
+      SystemStat.capture_current_stats(self)
+      sleep(0.5)
+    end
+  end
+
+  def finished?
+    self.jobs.where(:ended_at => nil).count == 0
   end
 
   def queue_jobs
@@ -46,6 +62,8 @@ class Batch < ActiveRecord::Base
       self[stat] = statistical_data.send(stat)
     end
     self.percentile95 = statistical_data.value_from_percentile(95)
+    self.percentile25 = statistical_data.value_from_percentile(25)
+    self.percentile75 = statistical_data.value_from_percentile(75)
   end
 
 end

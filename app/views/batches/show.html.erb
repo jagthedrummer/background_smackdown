@@ -5,8 +5,17 @@
   <%= @batch.name %>
 </p>
 
+<div id="box_chart">
+  
+</div>
+
 <script type="text/javascript" charset="utf-8">
-  var job_data = <%= @batch.jobs.to_json.html_safe %>;
+var job_data = <%= @batch.jobs.to_json(:methods => :runtime).html_safe %>;
+var sys_data = <%= @batch.system_stats.to_json.html_safe %>
+$( document ).ready(function() {
+  Batches.show.init();
+});
+
 </script>
 
 <%= link_to 'Edit', edit_batch_path(@batch) %> |

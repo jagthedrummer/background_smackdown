@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131206221430) do
+ActiveRecord::Schema.define(version: 20131206223217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 20131206221430) do
     t.float    "percentile95"
     t.float    "run_time"
     t.float    "wall_time"
+    t.float    "percentile25"
+    t.float    "percentile75"
   end
 
   create_table "jobs", force: true do |t|
@@ -65,6 +67,7 @@ ActiveRecord::Schema.define(version: 20131206221430) do
     t.float    "load_15"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
 end

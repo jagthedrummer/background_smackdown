@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require d3.v3
+//= require d3.box.js
 //= require_tree .
