@@ -28,6 +28,17 @@
         <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
         <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      <tr>
+        <td><%= batch.statistical_data.mean %></td>
+        <td><%= batch.statistical_data.median %></td>
+        <td><%= batch.statistical_data.range %></td>
+        <td><%= batch.statistical_data.min %></td>
+        <td><%= batch.statistical_data.max %></td>
+        <td><%= batch.statistical_data.variance %></td>
+        <td><%= batch.statistical_data.standard_deviation %></td>
+        <td><%= batch.statistical_data.relative_standard_deviation %></td>
+        <td><%= batch.statistical_data.value_from_percentile(95) %></td>
+      </tr>
     <% end %>
   </tbody>
 </table>

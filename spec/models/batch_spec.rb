@@ -16,4 +16,8 @@ describe Batch do
     end
   end
 
+  describe "calc_stats" do
+
+  end
+
 end

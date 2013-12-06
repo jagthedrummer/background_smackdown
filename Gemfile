@@ -31,6 +31,8 @@ gem "bootstrap-sass", "~> 3.0.3.0"
 gem "resque", "~> 1.25.1"
 gem "sidekiq", "~> 2.17.0"
 
+gem "descriptive-statistics", "~> 2.1.0"#, :require => 'descriptive_statistics'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

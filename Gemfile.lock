@@ -40,6 +40,7 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     connection_pool (1.2.0)
+    descriptive-statistics (2.1.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.0.2)
@@ -158,6 +159,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.0.3.0)
   coffee-rails (~> 4.0.0)
+  descriptive-statistics (~> 2.1.0)
   jbuilder (~> 1.2)
   jquery-rails
   pg (~> 0.17.0)

@@ -21,4 +21,12 @@ class Batch < ActiveRecord::Base
     end
   end
 
+  def runtime_data
+    self.jobs.map{|j| j.ended_at - j.started_at }
+  end
+
+  def statistical_data
+    @sdata ||= DescriptiveStatistics::Stats.new(runtime_data)
+  end
+
 end
