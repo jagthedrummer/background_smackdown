@@ -9,8 +9,8 @@ Batches.show.init = function(){
 
   var lineData = [];
   lineData.push(Batches.extractLine(sys_data,'cpu',function(d){return d['sys_cpu']+d['user_cpu']}));
-  //lineData.push(Batches.extractLine(sys_data,'user',function(d){return d['user_cpu']}));
-  //lineData.push(Batches.extractLine(sys_data,'sys',function(d){return d['sys_cpu']}));
+  lineData.push(Batches.extractLine(sys_data,'user',function(d){return d['user_cpu']}));
+  lineData.push(Batches.extractLine(sys_data,'sys',function(d){return d['sys_cpu']}));
   //
   Batches.buildLineChart(lineData,'#user_cpu_line');
 
@@ -20,25 +20,30 @@ Batches.show.init = function(){
   Batches.buildLineChart(lineData,'#load_line');
 
   var scatterData = [];
-  scatterData.push( Batches.extractScatter(job_data,'runtime') );
+  //scatterData = randomData(1,2000);
+  
+  scatterData.push( Batches.extractScatter(job_data,'started','runtime','started_at',0) );
+  //scatterData.push( Batches.extractScatter(job_data,'ended','runtime','ended_at',1) );
+  //
+  console.log('scatterData');
+  console.log(scatterData);
   Batches.addScatter(scatterData);
   
 }
 
 
-Batches.extractScatter = function(orig_data,value){
+Batches.extractScatter = function(orig_data,label,value,date_field,series){
   var data = {
-    key : value,
+    key : label,
     values : []
   };
 
-  var base_time = Date.parse(orig_data[0]['ended_at']);
+  var base_time = Date.parse(orig_data[0][date_field]);
 
   $.each(orig_data,function(i,d){
-    var x = Date.parse(d['ended_at']) - base_time;
+    var x = Date.parse(d[date_field]) - base_time;
     var y = d[value];
-    var series = 4;
-    var size = 0.2;
+    var size = 0.1;
     var d2 = {x:x , y:y, series:series, size:size};
     //console.log(d2);
     data.values.push(d2);

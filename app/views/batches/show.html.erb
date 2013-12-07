@@ -2,7 +2,12 @@
 
 <h3><%= @batch.background_type %> : <%= @batch.job_count %> <%= @batch.job_type %>s</h3>
 <h5>Workers : <%= @batch.worker_count %> - Threads : <%= @batch.thread_count %></h5> 
-
+<h5>Wall time : <%= number_to_human @batch.wall_time %></h5>
+<h5>Run time : <%= number_to_human @batch.run_time %></h5>
+<h5>Avg : <%= number_to_human @batch.median %></h5>
+<h5>Min : <%= number_to_human @batch.min %></h5>
+<h5>Max : <%= number_to_human @batch.max %></h5>
+<h5>Std Dev : <%= number_to_human @batch.standard_deviation %></h5>
 <div class="scatter-chart" id="job_scatter"><svg style="height:200px;"></svg></div>
 
 
