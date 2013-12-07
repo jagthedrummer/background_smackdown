@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require d3.box.css
+ *= require nv.d3
  *= require_tree .
  */
 
@@ -17,4 +18,8 @@
 
 tr.odd td{
   background:#efefef;
+}
+
+.box-plot{
+  float:left;
 }

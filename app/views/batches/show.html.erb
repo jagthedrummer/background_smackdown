@@ -1,13 +1,26 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @batch.name %>
-</p>
+<h3><%= @batch.background_type %> : <%= @batch.job_count %> <%= @batch.job_type %>s</h3>
+<h5>Workers : <%= @batch.worker_count %> - Threads : <%= @batch.thread_count %></h5> 
 
-<div id="box_chart">
-  
-</div>
+<div class="scatter-chart" id="job_scatter"><svg style="height:200px;"></svg></div>
+
+
+
+<div class="line-chart" id="user_cpu_line"><svg></svg></div>
+
+<div class="line-chart" id="load_line"><svg></svg></div>
+
+
+
+
+
+<div class="box-plot" id="box_chart"></div>
+<div class="box-plot" id="load_chart"></div>
+<div class="box-plot" id="user_cpu_chart"></div>
+<div class="box-plot" id="sys_cpu_chart"></div>
+
+
 
 <script type="text/javascript" charset="utf-8">
 var job_data = <%= @batch.jobs.to_json(:methods => :runtime).html_safe %>;

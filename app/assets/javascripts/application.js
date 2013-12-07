@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require d3.v3
 //= require d3.box.js
+//= require nv.d3
 //= require_tree .
