@@ -1,5 +1,47 @@
 Batches = {};
 Batches.show = {};
+Batches.index = {};
+
+
+Batches.index.init = function(){
+  
+  var scatterData = [];
+  $.each(batchData,function(i,d){
+    var base_time = Date.parse(d.system_stats[0]['created_at']);
+    console.log("base_time " + base_time);
+    var name = d.background_type + ' ' + d.worker_count + '/' + d.thread_count;
+    scatterData.push( Batches.extractScatter(d.jobs,name,'runtime','started_at',0,base_time) );
+  });
+  Batches.addScatter(scatterData);
+
+  var lineData = [];
+  $.each(batchData,function(i,d){
+    var base_time = Date.parse(d.system_stats[0]['created_at']);
+    console.log("base_time " + base_time);
+    var name = d.background_type + ' ' + d.worker_count + '/' + d.thread_count;
+    lineData.push(Batches.extractLine(d.system_stats,name,function(d){return d['sys_cpu']+d['user_cpu']},base_time));
+  });
+  Batches.buildLineChart(lineData,'#user_cpu_line');
+
+  lineData = [];
+  $.each(batchData,function(i,d){
+    var base_time = Date.parse(d.system_stats[0]['created_at']);
+    console.log("base_time " + base_time);
+    var name = d.background_type + ' ' + d.worker_count + '/' + d.thread_count;
+    lineData.push(Batches.extractLine(d.system_stats,name,function(d){return d['load_1']},base_time));
+  });
+  Batches.buildLineChart(lineData,'#load_line');
+
+  var boxData = Batches.extractBox(batchData);
+  /*
+  $.each(batchData,function(i,d){
+    var name = d.background_type + ' ' + d.worker_count + '/' + d.thread_count;
+    boxData.push(Batches.extractBox(d.jobs,name,function(d){return d['runtime']}));
+  });*/
+  Batches.buildMultiBox(boxData);
+}
+
+
 
 Batches.show.init = function(){
   //Batches.buildBoxChart(job_data,'runtime','#box_chart',1000);
@@ -7,22 +49,23 @@ Batches.show.init = function(){
   //Batches.buildBoxChart(sys_data,'user_cpu','#user_cpu_chart',1);
   //Batches.buildBoxChart(sys_data,'sys_cpu','#sys_cpu_chart',1);
 
+  var base_time = Date.parse(sys_data[0]['created_at']);
+
   var lineData = [];
-  lineData.push(Batches.extractLine(sys_data,'cpu',function(d){return d['sys_cpu']+d['user_cpu']}));
-  lineData.push(Batches.extractLine(sys_data,'user',function(d){return d['user_cpu']}));
-  lineData.push(Batches.extractLine(sys_data,'sys',function(d){return d['sys_cpu']}));
+  lineData.push(Batches.extractLine(sys_data,'cpu',function(d){return d['sys_cpu']+d['user_cpu']},base_time));
+  lineData.push(Batches.extractLine(sys_data,'user',function(d){return d['user_cpu']},base_time));
+  lineData.push(Batches.extractLine(sys_data,'sys',function(d){return d['sys_cpu']},base_time));
   //
   Batches.buildLineChart(lineData,'#user_cpu_line');
 
 
   lineData = [];
-  lineData.push(Batches.extractLine(sys_data,'load',function(d){return d['load_1']}));
+  lineData.push(Batches.extractLine(sys_data,'load',function(d){return d['load_1']},base_time));
   Batches.buildLineChart(lineData,'#load_line');
 
   var scatterData = [];
-  //scatterData = randomData(1,2000);
   
-  scatterData.push( Batches.extractScatter(job_data,'started','runtime','started_at',0) );
+  scatterData.push( Batches.extractScatter(job_data,'started','runtime','started_at',0,base_time) );
   //scatterData.push( Batches.extractScatter(job_data,'ended','runtime','ended_at',1) );
   //
   console.log('scatterData');
@@ -32,13 +75,11 @@ Batches.show.init = function(){
 }
 
 
-Batches.extractScatter = function(orig_data,label,value,date_field,series){
+Batches.extractScatter = function(orig_data,label,value,date_field,series,base_time){
   var data = {
     key : label,
     values : []
   };
-
-  var base_time = Date.parse(orig_data[0][date_field]);
 
   $.each(orig_data,function(i,d){
     var x = Date.parse(d[date_field]) - base_time;
@@ -79,37 +120,9 @@ Batches.addScatter = function(data){
 }
 
 
-  function randomData(groups, points) { //# groups,# points per group
-    var data = [],
-        shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
-        random = d3.random.normal();
 
-    for (i = 0; i < groups; i++) {
-      data.push({
-        key: 'Group ' + i,
-        values: []
-     });
-
-      for (j = 0; j < points; j++) {
-        data[i].values.push({
-          x: random()
-        , y: random()
-        , size: Math.random()
-        //, shape: shapes[j % 6]
-        });
-      }
-    }
-    console.log("===============");
-    console.log(data);
-    return data;
-  }
-
-
-
-Batches.extractLine = function(orig_data,key,valueFunc,color){
+Batches.extractLine = function(orig_data,key,valueFunc,base_time){
   
-  var base_time = Date.parse(orig_data[0]['created_at']);
-
   var data = {
     values : [],
     key : key
@@ -135,7 +148,8 @@ Batches.buildLineChart = function(data, selector){
 
 
   nv.addGraph(function() {  
-    var chart = nv.models.lineChart();
+    var chart = nv.models.lineChart()
+                  .color(d3.scale.category10().range());
 
     chart.xAxis
         .axisLabel('Time (ms)')
@@ -159,6 +173,67 @@ Batches.buildLineChart = function(data, selector){
 
 }
 
+
+Batches.extractBox = function(batch_data,series){
+  var data = [];
+  var min = Infinity,
+      max = -Infinity;
+
+  batch_data.forEach(function(batch,bi){
+    console.log('bi = ' + bi);
+    batch.jobs.forEach(function(x,i) {
+      var e = Math.floor(bi),
+          r = Math.floor(i),
+          s = x.runtime,
+          d = data[e];
+      if (!d) d = data[e] = [s];
+      else d.push(s);
+      if (s > max) max = s;
+      if (s < min) min = s;
+    });
+  });
+    
+  var real_data = { values : data, min : min, max : max };
+  console.log(real_data);
+  return real_data;
+}
+
+Batches.buildMultiBox = function(data){
+  var margin = {top: 10, right: 50, bottom: 20, left: 50},
+      width = 120 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+  var chart = d3.box()
+      .whiskers(iqr(1.5))
+      .width(width)
+      .height(height);
+
+    chart.domain([data.min, data.max]);
+
+    var svg = d3.select("#box_chart").selectAll("svg")
+        .data(data.values)
+      .enter().append("svg")
+        .attr("class", "box")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.bottom + margin.top)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .call(chart);
+
+  // Returns a function to compute the interquartile range.
+  function iqr(k) {
+    return function(d, i) {
+      var q1 = d.quartiles[0],
+          q3 = d.quartiles[2],
+          iqr = (q3 - q1) * k,
+          i = -1,
+          j = d.length;
+      while (d[++i] < q1 - iqr);
+      while (d[--j] > q3 + iqr);
+      return [i, j];
+    };
+  }
+}
 
 Batches.buildBoxChart = function(orig_data,value,selector,multiplier){
   console.log(orig_data);

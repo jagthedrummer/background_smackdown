@@ -1,5 +1,26 @@
 <h1>Listing batches</h1>
 
+<ul class="nav nav-tabs">
+  <%= nav_link "Jobs", batches_path(:job_type => "Job") %>
+  <%= nav_link "CpuJobs", batches_path(:job_type => "CpuJob") %>
+  <%= nav_link "IoJobs", batches_path(:job_type => "IoJob") %>
+  <%= nav_link "MixedJobs", batches_path(:job_type => "MixedJob") %>
+</ul>
+
+<div class="box-plot" id="box_chart"></div>
+
+<div class="scatter-chart" id="job_scatter"><svg style="height:250px;"></svg></div>
+
+<div class="line-chart" id="user_cpu_line"><svg></svg></div>
+
+<div class="line-chart" id="load_line"><svg></svg></div>
+
+
+<script type="text/javascript" charset="utf-8">
+  var batchData = [];
+</script>
+
+
 <table class="table">
   <thead>
     <tr>
@@ -27,7 +48,7 @@
 
   <tbody>
     <% @batches.each do |batch| %>
-      <%= classname = cycle('odd','even') %>
+      <% classname = cycle('odd','even') %>
       <tr class="<%= classname %>">
         <td><%= batch.name %></td>
         <td><%= batch.background_type %></td>
@@ -56,6 +77,12 @@
         <td><%= batch.percentile95 %></td>
         -->
       </tr>
+      <script type="text/javascript" charset="utf-8">
+        var batch = <%= batch.to_json.html_safe %>;
+        batch.jobs = <%= batch.jobs.to_json(:methods => :runtime).html_safe %>;
+        batch.system_stats = <%= batch.system_stats.to_json.html_safe %>;
+        batchData.push(batch);
+      </script>
     <% end %>
   </tbody>
 </table>
@@ -63,3 +90,10 @@
 <br>
 
 <%= link_to 'New Batch', new_batch_path, :class=>'btn btn-primary' %>
+
+
+<script type="text/javascript" charset="utf-8">
+$( document ).ready(function() {
+  Batches.index.init();
+});
+</script>

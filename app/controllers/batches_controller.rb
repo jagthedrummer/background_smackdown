@@ -4,7 +4,8 @@ class BatchesController < ApplicationController
   # GET /batches
   # GET /batches.json
   def index
-    @batches = Batch.all
+    @job_type = params[:job_type] || "Job"
+    @batches = Batch.where(:job_type => @job_type).order(:background_type,:worker_count,:thread_count).all
   end
 
   # GET /batches/1

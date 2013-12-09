@@ -1,10 +1,10 @@
 class Batch < ActiveRecord::Base
 
-  has_many :jobs
-  has_many :system_stats
+  has_many :jobs, -> { order "created_at asc" }
+  has_many :system_stats, -> { order "created_at asc" }
 
   BACKGROUND_TYPES = ["Resque","Sidekiq"]
-  JOB_TYPES = ["Job","CpuJob","IoJob"]
+  JOB_TYPES = ["Job","CpuJob","IoJob","MixedJob"]
   
   def create_jobs
     self.job_count.times do
@@ -12,6 +12,11 @@ class Batch < ActiveRecord::Base
     end
   end
 
+
+  def clean_children
+    self.jobs.destroy_all
+    self.system_stats.destroy_all
+  end
 
   def process_batch
     SystemStat.capture_current_stats(self)
