@@ -1,3 +1,4 @@
+
 <h1>Listing batches</h1>
 
 <ul class="nav nav-tabs">
@@ -13,6 +14,18 @@
     <div id="mean"><svg style="height:250px;"></svg></div>
   </div>
   <div class="col-md-4">
+    <h3>Total Processing Time</h3>
+    <div id="run_time"><svg style="height:250px;"></svg></div>
+  </div>
+  <div class="col-md-4">
+    <h3>Elapsed Wall Time</h3>
+    <div id="wall_time"><svg style="height:250px;"></svg></div>
+  </div>
+</div>
+
+<!--
+<div class="row">
+  <div class="col-md-4">
     <h3>Median Processing Time</h3>
     <div id="median"><svg style="height:250px;"></svg></div>
   </div>
@@ -20,24 +33,12 @@
     <h3>95th% Processing Time</h3>
     <div id="percentile95"><svg style="height:250px;"></svg></div>
   </div>
-</div>
-
-<div class="row">
-  <div class="col-md-4">
-    <h3>Wall Time</h3>
-    <div id="wall_time"><svg style="height:250px;"></svg></div>
-  </div>
-  
-  <div class="col-md-4">
-    <h3>Processor Time</h3>
-    <div id="run_time"><svg style="height:250px;"></svg></div>
-  </div>
   <div class="col-md-4">
     <h3>Standard Deviation</h3>
     <div id="standard_deviation"><svg style="height:250px;"></svg></div>
   </div>
 </div>
-
+-->
     
 
 <div class="scatter-chart" id="job_scatter"><svg style="height:250px;"></svg></div>
@@ -80,6 +81,7 @@
 
   <tbody>
     <% @batches.each do |batch| %>
+    <% cache(batch) do %>
       <% classname = cycle('odd','even') %>
       <tr class="<%= classname %>">
         <td><%= batch.name %></td>
@@ -116,6 +118,7 @@
         batchData.push(batch);
       </script>
     <% end %>
+    <% end %>
   </tbody>
 </table>
 
@@ -129,3 +132,4 @@ $( document ).ready(function() {
   Batches.index.init();
 });
 </script>
+

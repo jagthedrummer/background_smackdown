@@ -2,8 +2,8 @@ class Job < ActiveRecord::Base
 
   belongs_to :batch
 
-  def process
-    self.started_at = Time.now
+  def process(start_time)
+    self.started_at = start_time
     #self.start_load_1, self.start_load_5, self.start_load_15 = self.capture_load
     #self.start_user_cpu, self.start_sys_cpu = self.capture_cpu
     process_impl

@@ -23,7 +23,7 @@ describe BatchesController do
   # This should return the minimal set of attributes required to create a valid
   # Batch. As you add validations to Batch, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { { "name" => "MyString" ,"job_type" => "Job"} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -34,7 +34,7 @@ describe BatchesController do
     it "assigns all batches as @batches" do
       batch = Batch.create! valid_attributes
       get :index, {}, valid_session
-      expect(assigns(:batches)).to eq([batch])
+      expect(assigns(:batches).to_a).to eq([batch])
     end
   end
 

@@ -8,21 +8,22 @@ Batches.index.init = function(){
   var barData = Batches.extractHorizBarData(batchData,'mean');
   Batches.addHorizBar(barData,'#mean');
 
-  var barData = Batches.extractHorizBarData(batchData,'median');
-  Batches.addHorizBar(barData,'#median');
-
-  var barData = Batches.extractHorizBarData(batchData,'percentile95');
-  Batches.addHorizBar(barData,'#percentile95');
-
   var barData = Batches.extractHorizBarData(batchData,'wall_time');
   Batches.addHorizBar(barData,'#wall_time');
 
   var barData = Batches.extractHorizBarData(batchData,'run_time');
   Batches.addHorizBar(barData,'#run_time');
 
+  /*
+  var barData = Batches.extractHorizBarData(batchData,'median');
+  Batches.addHorizBar(barData,'#median');
+
+  var barData = Batches.extractHorizBarData(batchData,'percentile95');
+  Batches.addHorizBar(barData,'#percentile95');
+
   var barData = Batches.extractHorizBarData(batchData,'standard_deviation');
   Batches.addHorizBar(barData,'#standard_deviation');
-  
+  */
   var scatterData = [];
   $.each(batchData,function(i,d){
     var base_time = Date.parse(d.system_stats[0]['created_at']);
