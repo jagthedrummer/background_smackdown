@@ -7,6 +7,38 @@
   <%= nav_link "MixedJobs", batches_path(:job_type => "MixedJob") %>
 </ul>
 
+<div class="row">
+  <div class="col-md-4">
+    <h3>Mean Processing Time</h3>
+    <div id="mean"><svg style="height:250px;"></svg></div>
+  </div>
+  <div class="col-md-4">
+    <h3>Median Processing Time</h3>
+    <div id="median"><svg style="height:250px;"></svg></div>
+  </div>
+  <div class="col-md-4">
+    <h3>95th% Processing Time</h3>
+    <div id="percentile95"><svg style="height:250px;"></svg></div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <h3>Wall Time</h3>
+    <div id="wall_time"><svg style="height:250px;"></svg></div>
+  </div>
+  
+  <div class="col-md-4">
+    <h3>Processor Time</h3>
+    <div id="run_time"><svg style="height:250px;"></svg></div>
+  </div>
+  <div class="col-md-4">
+    <h3>Standard Deviation</h3>
+    <div id="standard_deviation"><svg style="height:250px;"></svg></div>
+  </div>
+</div>
+
+    
 
 <div class="scatter-chart" id="job_scatter"><svg style="height:250px;"></svg></div>
 
@@ -79,8 +111,8 @@
       </tr>
       <script type="text/javascript" charset="utf-8">
         var batch = <%= batch.to_json.html_safe %>;
-        batch.jobs = <%= batch.jobs.to_json(:methods => :runtime).html_safe %>;
-        batch.system_stats = <%= batch.system_stats.to_json.html_safe %>;
+        batch.jobs = <%= batch.jobs.order(:started_at).to_json(:methods => :runtime).html_safe %>;
+        batch.system_stats = <%= batch.system_stats.order(:created_at).to_json.html_safe %>;
         batchData.push(batch);
       </script>
     <% end %>

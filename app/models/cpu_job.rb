@@ -4,4 +4,5 @@ class CpuJob < Job
     n = 25000
     (1..n).inject(:*) || 1
   end
+
 end

@@ -4,6 +4,24 @@ Batches.index = {};
 
 
 Batches.index.init = function(){
+
+  var barData = Batches.extractHorizBarData(batchData,'mean');
+  Batches.addHorizBar(barData,'#mean');
+
+  var barData = Batches.extractHorizBarData(batchData,'median');
+  Batches.addHorizBar(barData,'#median');
+
+  var barData = Batches.extractHorizBarData(batchData,'percentile95');
+  Batches.addHorizBar(barData,'#percentile95');
+
+  var barData = Batches.extractHorizBarData(batchData,'wall_time');
+  Batches.addHorizBar(barData,'#wall_time');
+
+  var barData = Batches.extractHorizBarData(batchData,'run_time');
+  Batches.addHorizBar(barData,'#run_time');
+
+  var barData = Batches.extractHorizBarData(batchData,'standard_deviation');
+  Batches.addHorizBar(barData,'#standard_deviation');
   
   var scatterData = [];
   $.each(batchData,function(i,d){
@@ -33,15 +51,59 @@ Batches.index.init = function(){
   Batches.buildLineChart(lineData,'#load_line');
 
   var boxData = Batches.extractBox(batchData);
-  /*
-  $.each(batchData,function(i,d){
-    var name = d.background_type + ' ' + d.worker_count + '/' + d.thread_count;
-    boxData.push(Batches.extractBox(d.jobs,name,function(d){return d['runtime']}));
-  });*/
   Batches.buildMultiBox(boxData);
 }
 
+Batches.extractHorizBarData = function(batchData,value){
+  var resqueData = [];
+  var sidekiqData = [];
+  $.each(batchData,function(i,d){
+    var bd = {
+      label : d3.max([d.worker_count, d.thread_count]),
+      value : d[value]
+    };
+    if(d.background_type == "Resque"){
+      resqueData.push(bd);
+    }else{
+      sidekiqData.push(bd);
+    }
+  });
 
+  rData = [
+    { key : "Resque",
+      values : resqueData
+    },
+    { key : "Sidekiq",
+      values : sidekiqData
+    }
+  ];
+  return rData;
+
+}
+
+Batches.addHorizBar = function(data,selector){
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarHorizontalChart()
+        .x(function(d) { return d.label })
+        .y(function(d) { return d.value })
+       .margin({top: 30, right: 20, bottom: 50, left: 20})
+        .showValues(true)
+        .tooltips(false)
+        .showControls(false);
+
+    chart.yAxis
+        .tickFormat(d3.format(',.2f'));
+
+    d3.select(selector + ' svg')
+        .datum(data)
+      .transition().duration(500)
+        .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+}
 
 Batches.show.init = function(){
   //Batches.buildBoxChart(job_data,'runtime','#box_chart',1000);

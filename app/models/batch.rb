@@ -1,7 +1,7 @@
 class Batch < ActiveRecord::Base
 
-  has_many :jobs, -> { order "created_at asc" }
-  has_many :system_stats, -> { order "created_at asc" }
+  has_many :jobs#, -> { order "created_at asc" }
+  has_many :system_stats#, -> { order "created_at asc" }
 
   BACKGROUND_TYPES = ["Resque","Sidekiq"]
   JOB_TYPES = ["Job","CpuJob","IoJob","MixedJob"]
