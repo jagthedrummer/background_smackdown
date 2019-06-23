@@ -31,6 +31,8 @@ gem "bootstrap-sass", "~> 3.0.3.0"
 gem "resque", "~> 1.25.1"
 gem "sidekiq", "~> 2.17.0"
 
+#gem 'resque-multi-job-forks'
+
 gem "descriptive-statistics", "~> 2.1.0"#, :require => 'descriptive_statistics'
 
 gem 'dalli'

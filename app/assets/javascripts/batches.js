@@ -14,12 +14,12 @@ Batches.index.init = function(){
   var barData = Batches.extractHorizBarData(batchData,'run_time');
   Batches.addHorizBar(barData,'#run_time');
 
+  var barData = Batches.extractHorizBarData(batchData,'percentile95');
+  Batches.addHorizBar(barData,'#percentile95');
+
   /*
   var barData = Batches.extractHorizBarData(batchData,'median');
   Batches.addHorizBar(barData,'#median');
-
-  var barData = Batches.extractHorizBarData(batchData,'percentile95');
-  Batches.addHorizBar(barData,'#percentile95');
 
   var barData = Batches.extractHorizBarData(batchData,'standard_deviation');
   Batches.addHorizBar(barData,'#standard_deviation');
@@ -42,6 +42,7 @@ Batches.index.init = function(){
   });
   Batches.buildLineChart(lineData,'#user_cpu_line');
 
+  /*
   lineData = [];
   $.each(batchData,function(i,d){
     var base_time = Date.parse(d.system_stats[0]['created_at']);
@@ -50,6 +51,7 @@ Batches.index.init = function(){
     lineData.push(Batches.extractLine(d.system_stats,name,function(d){return d['load_1']},base_time));
   });
   Batches.buildLineChart(lineData,'#load_line');
+  */
 
   var boxData = Batches.extractBox(batchData);
   Batches.buildMultiBox(boxData);
@@ -264,7 +266,7 @@ Batches.extractBox = function(batch_data,series){
 Batches.buildMultiBox = function(data){
   var margin = {top: 10, right: 50, bottom: 20, left: 50},
       width = 120 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+      height = 300 - margin.top - margin.bottom;
 
   var chart = d3.box()
       .whiskers(iqr(1.5))

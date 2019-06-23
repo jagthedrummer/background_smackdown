@@ -17,6 +17,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :modified_run %><br>
+    <%= f.check_box :modified_run %>
+  </div>
+
+  <div class="field">
     <%= f.label :background_type %><br>
     <%= f.select(:background_type, Batch::BACKGROUND_TYPES.map { |value| [ value, value ] }) %>
   </div>

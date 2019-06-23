@@ -5,7 +5,8 @@ class BatchesController < ApplicationController
   # GET /batches.json
   def index
     @job_type = params[:job_type] || "Job"
-    @batches = Batch.where(:job_type => @job_type).order(:background_type,:worker_count,:thread_count)
+    @modified_run = params[:modified_run] || false
+    @batches = Batch.where(:job_type => @job_type,:modified_run => @modified_run).order(:background_type,:worker_count,:thread_count)
   end
 
   # GET /batches/1
@@ -70,6 +71,6 @@ class BatchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def batch_params
-      params.require(:batch).permit(:name,:background_type,:job_type,:job_count,:worker_count,:thread_count)
+      params.require(:batch).permit(:name,:background_type,:job_type,:job_count,:worker_count,:thread_count,:modified_run)
     end
 end
