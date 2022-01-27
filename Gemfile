@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 1.2'
 gem "bootstrap-sass", "~> 3.0.3.0"
 
 gem "resque", "~> 1.25.1"
-gem "sidekiq", "~> 2.17.0"
+gem "sidekiq", "~> 5.2.8"
 
 #gem 'resque-multi-job-forks'
 
