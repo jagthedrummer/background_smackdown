@@ -41,7 +41,7 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     connection_pool (1.2.0)
-    dalli (2.6.4)
+    dalli (3.2.3)
     descriptive-statistics (2.1.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
